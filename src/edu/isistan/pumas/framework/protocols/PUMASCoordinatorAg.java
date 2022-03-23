@@ -24,18 +24,11 @@ public abstract class PUMASCoordinatorAg<T extends SURItem> {
 	protected AgProposal<T> lastAgreement; //we need to save it for the execution of the reset method and the way it works.
 	
 	protected UserAgContainer<T> agContainer;
-	
-	protected HashMap<SURUser, Double> assertivenessFactors;
-	protected HashMap<SURUser, Double> cooperativenessFactors;
-	protected HashMap<SURUser, HashMap<SURUser, Double>> relationshipsFactors;
 
 	public PUMASCoordinatorAg(MultilateralConcessionStrategy<T> multilateralConcessionStrategy){
 		this.multilateralConcessionStrategy = multilateralConcessionStrategy;
 		agContainer = new UserAgContainer<T>();
 		lastAgreement = null;
-		assertivenessFactors = null;
-		cooperativenessFactors = null;
-		relationshipsFactors = null;
 	}
 	
 	public MultilateralConcessionStrategy<T> getMultilateralConcessionStrategy(){
@@ -61,30 +54,6 @@ public abstract class PUMASCoordinatorAg<T extends SURItem> {
 	public void addAgents (List<UserAg<T>> agents){
 		for (UserAg<T> agent : agents)
 			agContainer.put(agent.getID(), agent);
-	}
-
-	public void setAssertivenessFactors(HashMap<SURUser, Double> assertivenessFactors) {
-		this.assertivenessFactors = assertivenessFactors;
-	}
-
-	public HashMap<SURUser, Double> getAssertivenessFactors() {
-		return this.assertivenessFactors;
-	}
-
-	public void setCooperativenessFactors(HashMap<SURUser, Double> cooperativenessFactors) {
-		this.cooperativenessFactors = cooperativenessFactors;
-	}
-
-	public HashMap<SURUser, Double> getCooperativenessFactors() {
-		return this.cooperativenessFactors;
-	}
-
-	public void setRelationshipsFactors(HashMap<SURUser, HashMap<SURUser, Double>> relationshipsFactors) {
-		this.relationshipsFactors = relationshipsFactors;
-	}
-
-	public HashMap<SURUser, HashMap<SURUser, Double>> getRelationshipsFactors() {
-		return this.relationshipsFactors;
 	}
 
 	//------------------------------------------- PROTOCOL RELATED METHODS
