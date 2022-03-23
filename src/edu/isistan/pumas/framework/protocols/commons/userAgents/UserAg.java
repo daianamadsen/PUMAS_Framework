@@ -49,6 +49,10 @@ public abstract class UserAg <T extends SURItem>{
 	//User represented by the agent
 	protected SURUser representedUser;
 
+	protected Double assertivenessFactor = -1.0;
+	protected Double cooperativenessFactor = -1.0;
+	protected HashMap<SURUser, Double> relationshipsFactor;
+
 	//Proposals Pool (PPool) refilling
 	protected int PPOOL_MAX_SIZE = 20;
 	protected int MAX_PPOOL_REFILLS_ALLOWED = Integer.MAX_VALUE;
@@ -430,6 +434,30 @@ public abstract class UserAg <T extends SURItem>{
 		this.statsManager.registerUtilityRevealedFor(item);
 
 		return utility;
+	}
+
+	public double getAssertivenessFactor() {
+		return this.assertivenessFactor;
+	}
+
+	public void setAssertivenessFactor(double assertivenessFactor) {
+		this.assertivenessFactor = assertivenessFactor;
+	}
+
+	public double getCooperativenessFactor() {
+		return this.cooperativenessFactor;
+	}
+
+	public void setCooperativenessFactor(double cooperativenessFactor) {
+		this.cooperativenessFactor = cooperativenessFactor;
+	}
+
+	public HashMap<SURUser, Double> getRelationshipsFactor() {
+		return this.relationshipsFactor;
+	}
+
+	public void setRelationshipsFactor(HashMap<SURUser, Double> relationshipsFactor) {
+		this.relationshipsFactor = relationshipsFactor;
 	}
 
 	/**
