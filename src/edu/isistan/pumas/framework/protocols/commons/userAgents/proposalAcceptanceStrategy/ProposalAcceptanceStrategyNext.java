@@ -14,7 +14,9 @@ public class ProposalAcceptanceStrategyNext <T extends SURItem> extends Proposal
 		else {
 			try {
 				AgProposal<T> nextProp = ag.peekNextProposal();
-				return (ag.getUtilityFor(p) >= ag.getUtilityFor(nextProp)); //if p is better than my next proposal => accept
+				double af = (ag.getAssertivenessFactor() > 0.0) ? ag.getAssertivenessFactor() : 1.0; //1.0 if not initialized
+				double cf = (ag.getCooperativenessFactor() > 0.0) ? ag.getCooperativenessFactor() : 1.0; //1.0 if not initialized
+				return (ag.getUtilityFor(p)*cf >= ag.getUtilityFor(nextProp)*af); //if p is better than my next proposal => accept
 				
 			} catch (NonConcedableCurrentProposalException e) {
 				return false; //there is no next proposal (currentProposal can't be conceded) && p is not better than my current proposal (because of the first "if" clause)

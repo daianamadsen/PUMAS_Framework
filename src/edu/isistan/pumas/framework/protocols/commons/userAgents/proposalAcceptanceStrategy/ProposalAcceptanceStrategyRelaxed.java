@@ -59,7 +59,9 @@ public class ProposalAcceptanceStrategyRelaxed<T extends SURItem> implements Pro
 	@Override
 	public boolean accepts(UserAg<T> ag, AgProposal<T> p) {
 		try {
-			return (ag.getUtilityFor(p) >= ag.getUtilityFor(ag.getCurrentProposal())*(1 - this.relaxPercentage));
+			double af = (ag.getAssertivenessFactor() > 0.0) ? ag.getAssertivenessFactor() : 1.0; //1.0 if not initialized
+			double cf = (ag.getCooperativenessFactor() > 0.0) ? ag.getCooperativenessFactor() : 1.0; //1.0 if not initialized
+			return (ag.getUtilityFor(p)*cf >= ag.getUtilityFor(ag.getCurrentProposal())*af*(1 - this.relaxPercentage));
 		} catch (NothingToProposeException e) {
 			//if i'm here => ag.getCurrentProposal() threw an exception => 
 			//he will always agree to other agent's proposal as he doesn't have anything to propose
