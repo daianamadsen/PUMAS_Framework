@@ -61,7 +61,8 @@ public class ProposalAcceptanceStrategyRelaxed<T extends SURItem> implements Pro
 		try {
 			double af = (ag.getAssertivenessFactor() > 0.0) ? ag.getAssertivenessFactor() : 1.0; //1.0 if not initialized
 			double cf = (ag.getCooperativenessFactor() > 0.0) ? ag.getCooperativenessFactor() : 1.0; //1.0 if not initialized
-			return (ag.getUtilityFor(p)*cf >= ag.getUtilityFor(ag.getCurrentProposal())*af*(1 - this.relaxPercentage));
+			double rf = (ag.getRelationshipsFactor().get(p.getAgentID()) != null) ? ag.getRelationshipsFactor().get(p.getAgentID()) : 1.0; //1.0 if not initialized
+			return (ag.getUtilityFor(p)*cf*rf >= ag.getUtilityFor(ag.getCurrentProposal())*af*(1 - this.relaxPercentage));
 		} catch (NothingToProposeException e) {
 			//if i'm here => ag.getCurrentProposal() threw an exception => 
 			//he will always agree to other agent's proposal as he doesn't have anything to propose
