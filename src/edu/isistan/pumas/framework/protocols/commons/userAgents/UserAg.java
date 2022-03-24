@@ -51,7 +51,7 @@ public abstract class UserAg <T extends SURItem>{
 
 	protected Double assertivenessFactor = -1.0;
 	protected Double cooperativenessFactor = -1.0;
-	protected HashMap<SURUser, Double> relationshipsFactor;
+	protected HashMap<String, Double> relationshipsFactor = new HashMap<String, Double>();
 
 	//Proposals Pool (PPool) refilling
 	protected int PPOOL_MAX_SIZE = 20;
@@ -452,11 +452,11 @@ public abstract class UserAg <T extends SURItem>{
 		this.cooperativenessFactor = cooperativenessFactor;
 	}
 
-	public HashMap<SURUser, Double> getRelationshipsFactor() {
+	public HashMap<String, Double> getRelationshipsFactor() {
 		return this.relationshipsFactor;
 	}
 
-	public void setRelationshipsFactor(HashMap<SURUser, Double> relationshipsFactor) {
+	public void setRelationshipsFactor(HashMap<String, Double> relationshipsFactor) {
 		this.relationshipsFactor = relationshipsFactor;
 	}
 
