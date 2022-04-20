@@ -39,11 +39,6 @@ public abstract class ZeuthenStrategy<T extends SURItem> extends NegotiationStra
 			String zis = "";
 			for (UserAg<T> ag : concedingAgents){
 				double agZi = this.getZiFor(ag, allAgents);
-
-				//Cooperativeness Factor: is increased by one to establish the percentage of cooperation
-				double cf = (ag.getCooperativenessFactor() > 0.0) ? ag.getCooperativenessFactor()+1 : 1.0; //1.0 if not initialized
-				agZi = agZi*cf;
-				
 				zis+= ag.getID()+"= "+agZi+", ";
 				if (agZi <= minZi && agZi != Double.POSITIVE_INFINITY){ //agZi != Double.POSITIVE_INFINITY just in case, we should never need this check if the agents in "agents" list can concede. 
 					if (agZi == minZi && agMin != null) //if A and B have the same Zi => store A in the list of agents who should concede, and now B is the agMin.
