@@ -7,19 +7,7 @@ import edu.isistan.pumas.framework.protocols.commons.userAgents.UserAg;
 
 public class ProposalAcceptanceStrategyNext <T extends SURItem> extends ProposalAcceptanceStrategyStrict<T>{
 
-	private double pf_alpha, pf_beta, pf_gamma, pf_delta;
-	
-	public void setPfBeta(double pf_beta){
-		this.pf_beta = pf_beta;
-	}
-	
-	public void setPfGamma(double pf_gamma){
-		this.pf_gamma = pf_gamma;
-	}
-	
-	public void setPfDelta(double pf_delta){
-		this.pf_delta = pf_delta;
-	}
+	private double pf_alpha;
 
 	@Override
 	public boolean accepts(UserAg<T> ag, AgProposal<T> p) {
@@ -30,6 +18,9 @@ public class ProposalAcceptanceStrategyNext <T extends SURItem> extends Proposal
 				AgProposal<T> nextProp = ag.peekNextProposal();
 				//Initialize Personality Factors
 				pf_alpha = 1;
+				double pf_beta = PROPOSAL_ACCEPTANCE_PF_BETA;
+				double pf_gamma = PROPOSAL_ACCEPTANCE_PF_GAMMA;
+				double pf_delta = PROPOSAL_ACCEPTANCE_PF_DELTA;
 				double af = ag.getAssertivenessFactor();
 				if (af >= 0.0) {
 					pf_alpha = pf_alpha - pf_beta;
