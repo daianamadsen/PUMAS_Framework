@@ -8,6 +8,10 @@ import edu.isistan.pumas.framework.protocols.commons.userAgents.UserAg;
 
 public abstract class NegotiationStrategy<T extends SURItem> {
 	
+	public final double NEGOTIATION_PF_BETA = 0.25;
+	public final double NEGOTIATION_PF_GAMMA = 0.25;
+	public final double NEGOTIATION_PF_DELTA = 0.25;
+	
 	/**
 	 * 
 	 * @param agents
