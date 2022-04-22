@@ -10,6 +10,8 @@ import edu.isistan.pumas.framework.protocols.commons.userAgents.UserAg;
 
 public class ProductIncreasingStrategy<T extends SURItem> extends ZeuthenStrategy<T> {
 
+	private double pf_alpha;
+
 	/**
 	 * We compute the Zi value for the agent "myAgent" considering all the agent in the UserAgContainer, not only
 	 * the agents that can concede. Otherwise the search for the minimum utility value between the proposals of the other
@@ -33,9 +35,27 @@ public class ProductIncreasingStrategy<T extends SURItem> extends ZeuthenStrateg
 		     * proper values, will never be used */
 			return Double.POSITIVE_INFINITY;
 		}
-		
-		double agZi = myAgentCurrProp.getUtilityValue();
-		
+
+		//Initialize Personality Factors
+		pf_alpha = 1;
+		double pf_beta = NEGOTIATION_PF_BETA;
+		double pf_gamma = NEGOTIATION_PF_GAMMA;
+		double af = myAgent.getAssertivenessFactor();
+		if (af >= 0.0) {
+			pf_alpha = pf_alpha - pf_beta;
+		} else {
+			pf_beta = 0;
+		}
+		double cf = myAgent.getCooperativenessFactor();
+		if (cf >= 0.0) {
+			pf_alpha = pf_alpha - pf_gamma;
+		} else {
+			pf_gamma = 0;
+		}
+
+		double myUtility = myAgentCurrProp.getUtilityValue();
+		double agZi = pf_alpha*myUtility + pf_beta*(1-af) + pf_gamma*cf;
+
 		for (UserAg<T> otherAg : otherAgents) //what the others think about my proposal
 			agZi *= otherAg.getUtilityFor(myAgentCurrProp);
 		
