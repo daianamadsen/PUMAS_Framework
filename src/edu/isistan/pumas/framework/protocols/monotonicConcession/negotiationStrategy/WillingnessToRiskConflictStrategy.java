@@ -10,6 +10,8 @@ import edu.isistan.pumas.framework.protocols.commons.userAgents.UserAg;
 
 public class WillingnessToRiskConflictStrategy<T extends SURItem> extends ZeuthenStrategy<T> {
 
+	private double pf_alpha;
+
 	/**
 	 * For every agent of "agents" which is not "myAgent" compute the utility of the proposal of that agent using the 
 	 * perspective of "myAgent" (myAgent.getUtilityFor(...). Then return the lowest of those utility values
@@ -50,7 +52,27 @@ public class WillingnessToRiskConflictStrategy<T extends SURItem> extends Zeuthe
 		
 		double myUtility;
 		try {
+
+			//Initialize Personality Factors
+			pf_alpha = 1;
+			double pf_beta = NEGOTIATION_PF_BETA;
+			double pf_gamma = NEGOTIATION_PF_GAMMA;
+			double af = myAgent.getAssertivenessFactor();
+			if (af >= 0.0) {
+				pf_alpha = pf_alpha - pf_beta;
+			} else {
+				pf_beta = 0;
+			}
+			double cf = myAgent.getCooperativenessFactor();
+			if (cf >= 0.0) {
+				pf_alpha = pf_alpha - pf_gamma;
+			} else {
+				pf_gamma = 0;
+			}
+			
 			myUtility = myAgent.getUtilityFor(myAgent.getCurrentProposal());
+			myUtility = pf_alpha*myUtility + pf_beta*(1-af) + pf_gamma*cf;
+
 		} catch (NothingToProposeException e) {
 			return Double.POSITIVE_INFINITY;
 		}
