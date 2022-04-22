@@ -10,6 +10,7 @@ import edu.isistan.pumas.framework.protocols.commons.userAgents.UserAg;
 
 public class MinimalUtilityLossStrategy<T extends SURItem> extends WillingnessToRiskConflictStrategy<T> {
 
+	private double pf_alpha;
 
 	/**
 	 * We compute the Zi value for the agent "myAgent" considering all the agent in the UserAgContainer, not only
@@ -36,9 +37,29 @@ public class MinimalUtilityLossStrategy<T extends SURItem> extends WillingnessTo
 		     * proper values, will never be used */
 			return Double.POSITIVE_INFINITY; 
 		}
+
+		//Initialize Personality Factors
+		pf_alpha = 1;
+		double pf_beta = NEGOTIATION_PF_BETA;
+		double pf_gamma = NEGOTIATION_PF_GAMMA;
+		double af = myAgent.getAssertivenessFactor();
+		if (af >= 0.0) {
+			pf_alpha = pf_alpha - pf_beta;
+		} else {
+			pf_beta = 0;
+		}
+		double cf = myAgent.getCooperativenessFactor();
+		if (cf >= 0.0) {
+			pf_alpha = pf_alpha - pf_gamma;
+		} else {
+			pf_gamma = 0;
+		}
+
+		double myUtility = current.getUtilityValue();
+		myUtility = pf_alpha*myUtility + pf_beta*(1-af) + pf_gamma*cf;
 		
-		double pastConcessionsUtilityLoss = original.getUtilityValue() - current.getUtilityValue();
-		double actualConcessionUtilityLoss = current.getUtilityValue() - selectMinUtilityProposal(myAgent, otherAgents);
+		double pastConcessionsUtilityLoss = original.getUtilityValue() - myUtility;
+		double actualConcessionUtilityLoss = myUtility - selectMinUtilityProposal(myAgent, otherAgents);
 
 		return pastConcessionsUtilityLoss + actualConcessionUtilityLoss;
 	}
